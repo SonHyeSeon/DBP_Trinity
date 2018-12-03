@@ -69,5 +69,4 @@ def kedooRank(language):
     # language : 'English', 'French', 'German'
     rank = kedoo_rank[['category_TITLE',language]].copy()
     rank.rename(columns = {'category_TITLE':'kedoo_category'}, inplace = True)
-#     rank = rank.set_index(language)
     return rank

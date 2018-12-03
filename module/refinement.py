@@ -19,18 +19,22 @@ def dropRows_disabled(videos, column):
     # dropRows_disabled(videos, 'comments_disabled')
     # dropRows_disabled(videos, 'ratings_disabled')
     # dropRows_disabled(videos, 'video_error_or_removed')
-    if column in videos.columns:
+    if column not in videos.columns:
+        print(column,'이 존재하지 않음')
+    else:
         find = videos[videos[column] == True]
         drop = videos[videos['video_id'].isin(find['video_id'])]
         videos.drop(drop.index, inplace=True)
         videos.reset_index(inplace=True, drop=True)
-    del videos[column]
+        del videos[column]
+    
 
-def dropColumns(videos):
-    if 'tags' in videos.columns:
-        del videos['tags']
-    if 'description' in videos.columns:
-        del videos['description']
+def dropColumns(videos, column):
+    # column : 'tags', 'description' .etc
+    if column in videos.columns:
+        del videos[column]
+    else:
+        print(column,'이 존재하지 않음')
 
 def dropRows_dates(videos, column, start, end):
     # column : publish_time
@@ -42,4 +46,4 @@ def dropRows_dates(videos, column, start, end):
         videos.drop(young.index, inplace=True)
         videos.reset_index(inplace=True, drop=True)
     else:
-        print('videos[column]이 datetime.date 형식이 아님')
+        print('videos[',column,']이 datetime.date 형식이 아님')

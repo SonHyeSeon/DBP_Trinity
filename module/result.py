@@ -60,11 +60,12 @@ def calc(result_data, column, kedoo_rank, method):
         result_data['reliability'] = reliability_3(kedoo_rank,result_data[column].values)
 
 def resultType(result_data, rank, title, score, reliability):
-    result_data = result_data.sort_values(by=rank)
-    result_data[reliability] = round(result_data[reliability], 2)
-    result_data.rename(columns = {rank:'Rank'}, inplace = True)
-    result_data.rename(columns = {title:'Category'}, inplace = True)
-    result_data.rename(columns = {score:'Score'}, inplace = True)
-    result_data.rename(columns = {reliability:'Reliability(%)'}, inplace = True)
-    result_data = result_data.set_index('Rank')
-    return result_data
+    result = (result_data[[rank, title, score, reliability]]).copy()
+    result = result.sort_values(by=rank)
+    result[reliability] = round(result[reliability], 2)
+    result.rename(columns = {rank:'Rank'}, inplace = True)
+    result.rename(columns = {title:'Category'}, inplace = True)
+    result.rename(columns = {score:'Score'}, inplace = True)
+    result.rename(columns = {reliability:'Reliability(%)'}, inplace = True)
+    result = result.set_index('Rank')
+    return result
